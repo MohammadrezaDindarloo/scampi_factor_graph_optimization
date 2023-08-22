@@ -45,134 +45,126 @@ namespace gtsam
         {   
             Eigen::Matrix<double, 4, 1> resedual_func;
 
-            if (largest_cable == 1)
-            {
-                resedual_func = sym::ResedualFuncCost1L1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                if (H1)
-                {
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost1WrtFh1L1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
-                }
-                if (H2)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost1WrtFv1L1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
-                }
-                if (H3)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost1WrtRxL1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
-                }
-                if (H4)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost1WrtRyL1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
-                }
-                if (H5)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost1WrtRzL1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
-                }
+            switch (largest_cable)
+            {   
+                case 1:
+                    resedual_func = sym::ResedualFuncCost1L1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                    if (H1)
+                    {
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost1WrtFh1L1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
+                    }
+                    if (H2)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost1WrtFv1L1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
+                    }
+                    if (H3)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost1WrtRxL1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
+                    }
+                    if (H4)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost1WrtRyL1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
+                    }
+                    if (H5)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost1WrtRzL1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
+                    }
+                    break;
 
-                return (Vector(4) << resedual_func).finished();
+                case 2:
+                    resedual_func = sym::ResedualFuncCost1L2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                    if (H1)
+                    {
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost1WrtFh1L2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
+                    }
+                    if (H2)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost1WrtFv1L2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
+                    }
+                    if (H3)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost1WrtRxL2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
+                    }
+                    if (H4)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost1WrtRyL2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
+                    }
+                    if (H5)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost1WrtRzL2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
+                    }
+                    break;
+
+                case 3:
+                    resedual_func = sym::ResedualFuncCost1L3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                    if (H1)
+                    {
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost1WrtFh1L3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
+                    }
+                    if (H2)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost1WrtFv1L3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
+                    }
+                    if (H3)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost1WrtRxL3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
+                    }
+                    if (H4)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost1WrtRyL3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
+                    }
+                    if (H5)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost1WrtRzL3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
+                    }
+                    break;
+
+                case 4:
+                    resedual_func = sym::ResedualFuncCost1L4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                    if (H1)
+                    {
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost1WrtFh1L4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
+                    }
+                    if (H2)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost1WrtFv1L4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
+                    }
+                    if (H3)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost1WrtRxL4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
+                    }
+                    if (H4)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost1WrtRyL4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
+                    }
+                    if (H5)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost1WrtRzL4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
+                    }
+                    break;
+                default:
+                    break;
             }
-
-            if (largest_cable == 2)
-            {
-                resedual_func = sym::ResedualFuncCost1L2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                if (H1)
-                {
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost1WrtFh1L2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
-                }
-                if (H2)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost1WrtFv1L2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
-                }
-                if (H3)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost1WrtRxL2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
-                }
-                if (H4)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost1WrtRyL2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
-                }
-                if (H5)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost1WrtRzL2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
-                }
-
-                return (Vector(4) << resedual_func).finished();
-            }
-
-            if (largest_cable == 3)
-            {
-                resedual_func = sym::ResedualFuncCost1L3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                if (H1)
-                {
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost1WrtFh1L3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
-                }
-                if (H2)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost1WrtFv1L3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
-                }
-                if (H3)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost1WrtRxL3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
-                }
-                if (H4)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost1WrtRyL3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
-                }
-                if (H5)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost1WrtRzL3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
-                }
-
-                return (Vector(4) << resedual_func).finished();
-            }
-
-            if (largest_cable == 4)
-            {
-                resedual_func = sym::ResedualFuncCost1L4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                if (H1)
-                {
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost1WrtFh1L4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
-                }
-                if (H2)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost1WrtFv1L4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
-                }
-                if (H3)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost1WrtRxL4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
-                }
-                if (H4)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost1WrtRyL4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
-                }
-                if (H5)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost1WrtRzL4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
-                }
-
-                
-            }
-            
             return (Vector(4) << resedual_func).finished();
         }
     };
@@ -207,134 +199,127 @@ namespace gtsam
         {   
             Eigen::Matrix<double, 4, 1> resedual_func;
 
-            if (largest_cable == 1)
-            {
-                resedual_func = sym::ResedualFuncCost2L1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                if (H1)
-                {
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost2WrtFh1L1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
-                }
-                if (H2)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost2WrtFv1L1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
-                }
-                if (H3)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost2WrtRxL1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
-                }
-                if (H4)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost2WrtRyL1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
-                }
-                if (H5)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost2WrtRzL1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
-                }
+            switch (largest_cable)
+            {   
+                case 1:
+                    resedual_func = sym::ResedualFuncCost2L1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                    if (H1)
+                    {
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost2WrtFh1L1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
+                    }
+                    if (H2)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost2WrtFv1L1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
+                    }
+                    if (H3)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost2WrtRxL1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
+                    }
+                    if (H4)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost2WrtRyL1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
+                    }
+                    if (H5)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost2WrtRzL1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
+                    }
+                    break;
 
-                return (Vector(4) << resedual_func).finished();
-            }
+                case 2:
+                    resedual_func = sym::ResedualFuncCost2L2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                    if (H1)
+                    {
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost2WrtFh1L2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
+                    }
+                    if (H2)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost2WrtFv1L2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
+                    }
+                    if (H3)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost2WrtRxL2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
+                    }
+                    if (H4)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost2WrtRyL2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
+                    }
+                    if (H5)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost2WrtRzL2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
+                    }
+                    break;
 
-            if (largest_cable == 2)
-            {
-                resedual_func = sym::ResedualFuncCost2L2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                if (H1)
-                {
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost2WrtFh1L2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
-                }
-                if (H2)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost2WrtFv1L2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
-                }
-                if (H3)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost2WrtRxL2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
-                }
-                if (H4)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost2WrtRyL2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
-                }
-                if (H5)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost2WrtRzL2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
-                }
+                case 3:
+                    resedual_func = sym::ResedualFuncCost2L3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                    if (H1)
+                    {
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost2WrtFh1L3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
+                    }
+                    if (H2)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost2WrtFv1L3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
+                    }
+                    if (H3)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost2WrtRxL3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
+                    }
+                    if (H4)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost2WrtRyL3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
+                    }
+                    if (H5)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost2WrtRzL3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
+                    }
+                    break;
 
-                return (Vector(4) << resedual_func).finished();
-            }
-
-            if (largest_cable == 3)
-            {
-                resedual_func = sym::ResedualFuncCost2L3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                if (H1)
-                {
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost2WrtFh1L3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
-                }
-                if (H2)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost2WrtFv1L3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
-                }
-                if (H3)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost2WrtRxL3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
-                }
-                if (H4)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost2WrtRyL3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
-                }
-                if (H5)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost2WrtRzL3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
-                }
-
-                return (Vector(4) << resedual_func).finished();
-            }
-
-            if (largest_cable == 4)
-            {
-                resedual_func = sym::ResedualFuncCost2L4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                if (H1)
-                {
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost2WrtFh1L4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
-                }
-                if (H2)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost2WrtFv1L4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
-                }
-                if (H3)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost2WrtRxL4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
-                }
-                if (H4)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost2WrtRyL4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
-                }
-                if (H5)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost2WrtRzL4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
-                }
-
+                case 4:
+                    resedual_func = sym::ResedualFuncCost2L4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                    if (H1)
+                    {
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost2WrtFh1L4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
+                    }
+                    if (H2)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost2WrtFv1L4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
+                    }
+                    if (H3)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost2WrtRxL4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
+                    }
+                    if (H4)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost2WrtRyL4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
+                    }
+                    if (H5)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost2WrtRzL4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
+                    }
+                    break;  
                 
+                default:
+                    break;
             }
-            
             return (Vector(4) << resedual_func).finished(); 
         }
     };
@@ -369,134 +354,127 @@ namespace gtsam
         {   
             Eigen::Matrix<double, 4, 1> resedual_func; 
 
-            if (largest_cable == 1)
-            {   
-                resedual_func = sym::ResedualFuncCost3L1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                if (H1)
-                {
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost3WrtFh1L1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
-                }
-                if (H2)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost3WrtFv1L1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
-                }
-                if (H3)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost3WrtRxL1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
-                }
-                if (H4)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost3WrtRyL1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
-                }
-                if (H5)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost3WrtRzL1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
-                }
-
-                return (Vector(4) << resedual_func).finished();
-            }
-
-            if (largest_cable == 2)
+            switch (largest_cable)
             {
-                resedual_func = sym::ResedualFuncCost3L2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                if (H1)
-                {
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost3WrtFh1L2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
-                }
-                if (H2)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost3WrtFv1L2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
-                }
-                if (H3)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost3WrtRxL2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
-                }
-                if (H4)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost3WrtRyL2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
-                }
-                if (H5)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost3WrtRzL2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
-                }
+                case 1:   
+                    resedual_func = sym::ResedualFuncCost3L1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                    if (H1)
+                    {
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost3WrtFh1L1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
+                    }
+                    if (H2)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost3WrtFv1L1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
+                    }
+                    if (H3)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost3WrtRxL1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
+                    }
+                    if (H4)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost3WrtRyL1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
+                    }
+                    if (H5)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost3WrtRzL1(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
+                    }
+                    break;
 
-                return (Vector(4) << resedual_func).finished();
-            }
+                case 2:
+                    resedual_func = sym::ResedualFuncCost3L2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                    if (H1)
+                    {
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost3WrtFh1L2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
+                    }
+                    if (H2)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost3WrtFv1L2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
+                    }
+                    if (H3)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost3WrtRxL2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
+                    }
+                    if (H4)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost3WrtRyL2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
+                    }
+                    if (H5)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost3WrtRzL2(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
+                    }
+                    break;
 
-            if (largest_cable == 3)
-            {
-                resedual_func = sym::ResedualFuncCost3L3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                if (H1)
-                {
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost3WrtFh1L3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
-                }
-                if (H2)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost3WrtFv1L3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
-                }
-                if (H3)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost3WrtRxL3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
-                }
-                if (H4)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost3WrtRyL3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
-                }
-                if (H5)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost3WrtRzL3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
-                }
+                case 3:
+                    resedual_func = sym::ResedualFuncCost3L3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                    if (H1)
+                    {
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost3WrtFh1L3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
+                    }
+                    if (H2)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost3WrtFv1L3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
+                    }
+                    if (H3)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost3WrtRxL3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
+                    }
+                    if (H4)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost3WrtRyL3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
+                    }
+                    if (H5)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost3WrtRzL3(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
+                    }
+                    break;
 
-                return (Vector(4) << resedual_func).finished();
-            }
-
-            if (largest_cable == 4)
-            {
-                resedual_func = sym::ResedualFuncCost3L4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                if (H1)
-                {
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost3WrtFh1L4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
-                }
-                if (H2)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost3WrtFv1L4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
-                }
-                if (H3)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost3WrtRxL4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
-                }
-                if (H4)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost3WrtRyL4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
-                }
-                if (H5)
-                {   
-                    Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost3WrtRzL4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
-                    *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
-                }
-
+                case 4:
+                    resedual_func = sym::ResedualFuncCost3L4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                    if (H1)
+                    {
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fh1 = sym::ResedualFuncCost3WrtFh1L4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H1 = (Matrix(4, 1) << resedual_func_wrt_fh1).finished();
+                    }
+                    if (H2)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_fv1 = sym::ResedualFuncCost3WrtFv1L4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H2 = (Matrix(4, 1) << resedual_func_wrt_fv1).finished();
+                    }
+                    if (H3)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rx = sym::ResedualFuncCost3WrtRxL4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H3 = (Matrix(4, 1) << resedual_func_wrt_rx).finished();
+                    }
+                    if (H4)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_ry = sym::ResedualFuncCost3WrtRyL4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H4 = (Matrix(4, 1) << resedual_func_wrt_ry).finished();
+                    }
+                    if (H5)
+                    {   
+                        Eigen::Matrix<double, 4, 1> resedual_func_wrt_rz = sym::ResedualFuncCost3WrtRzL4(fh1, fv1, rx, ry, rz, p_init0, p_init1, p_init2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, epsilon);
+                        *H5 = (Matrix(4, 1) << resedual_func_wrt_rz).finished();
+                    }
+                    break;
                 
+                default:
+                    break;
             }
-            
             return (Vector(4) << resedual_func).finished();
         }
     };

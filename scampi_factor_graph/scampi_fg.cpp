@@ -29,7 +29,7 @@ Values factor_graph_optimizer(double p_init_0, double p_init_1, double p_init_2,
 
     LevenbergMarquardtOptimizer optimizer(graph, initial_estimate);
     Values result_LM = optimizer.optimize();
-    std::cout << std::endl << "-------------------caternary result--------------------------" << std::endl;
+    std::cout << std::endl << "-------------------catenary result--------------------------" << std::endl;
     std::cout << std::endl << "optimization error: " << optimizer.error() << std::endl;
 
     return result_LM;
@@ -153,10 +153,40 @@ void ikSolver(CableRobotParams robot_params,
     getGeometricVariables<double>(state,params_reord,&geom_vars);
     getCableForces<double>(fh, fv, &state, params_reord,geom_vars);
     getCatenaryVariables<double>(state,params_reord, geom_vars,&cat_vars);
-    //reverse the order of cables back to the normal configuration
+    //reverse the order of cables back to the normal configuration (base on notebook index)
+    switch(reorder_idx[0])
+    {
+        case 0:
+            reorder_idx[0] = 0;
+            reorder_idx[1] = 3;
+            reorder_idx[2] = 2;
+            reorder_idx[3] = 1;
+            break;
+        case 1:
+            reorder_idx[0] = 1;
+            reorder_idx[1] = 3;
+            reorder_idx[2] = 2;
+            reorder_idx[3] = 0;
+            break;
+        case 2:
+            reorder_idx[0] = 2;
+            reorder_idx[1] = 3;
+            reorder_idx[2] = 0;
+            reorder_idx[3] = 1;
+            break;
+        case 3:
+            reorder_idx[0] = 3;
+            reorder_idx[1] = 2;
+            reorder_idx[2] = 1;
+            reorder_idx[3] = 0;
+            break;
+        default:
+            break;
+    }
     reverseOrderForSolver<double>(state, geom_vars, cat_vars, result, reorder_idx);
 
 }
+
 
 
 std::vector<MatrixXd> IK_Factor_Graph_Optimization(CableRobotParams robot_params, 
