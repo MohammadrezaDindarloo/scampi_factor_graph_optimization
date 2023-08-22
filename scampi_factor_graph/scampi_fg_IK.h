@@ -4,7 +4,7 @@
 #include <boost/optional.hpp>
 #include <gtsam/nonlinear/LevenbergMarquardtOptimizer.h>
 #include <gtsam/inference/Symbol.h>
-#include </home/mohammad/scampi_factor_graph_optimization/scampi_factor_graph/function_headers/include_file.h>
+#include "function_headers/include_file.h"
 
 
 

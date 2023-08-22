@@ -1,6 +1,6 @@
 #include <iostream>
-#include </home/mohammad/scampi_factor_graph_optimization/scampi_factor_graph/scampi_fg_IK.h>
-#include </home/mohammad/scampi_factor_graph_optimization/scampi_factor_graph/scampi_fg_utils.h>
+#include "scampi_fg_IK.h"
+#include "scampi_fg_utils.h"
 
 using namespace std;
 using namespace gtsam;

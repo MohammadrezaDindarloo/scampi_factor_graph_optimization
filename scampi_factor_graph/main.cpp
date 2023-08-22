@@ -1,4 +1,4 @@
-#include </home/mohammad/scampi_factor_graph_optimization/scampi_factor_graph/scampi_fg.cpp>
+#include "scampi_fg.cpp"
 // g++ -std=c++17 main.cpp -lgtsam -lboost_system -lboost_timer -ltbb -ltbbmalloc -lmetis -lboost_serialization && ./a.out
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
