@@ -1,5 +1,0 @@
-FOR RUN THIS CODE:
-g++ -std=c++17 main.cpp libscampi_ks_solvers.cpp -I/usr/local/include/eigen3 -I/usr/local/include/ceres -L/usr/local/include/ceres -lceres -lcholmod -lstdc++ -lm -lglog -pthread -lmetis -llapack
-
-WHAT IS THIS FOLDER?
-this folder include scampi main code for solver to test all the python.symforce part to verify python code.
