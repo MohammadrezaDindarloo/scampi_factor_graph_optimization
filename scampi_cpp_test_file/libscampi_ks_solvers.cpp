@@ -63,11 +63,11 @@ void ikSolver(Vector3d p_platform,
     // Extract the optimized orientation matrix of the moving platform
     manif::SO3Tangentd xi;
     xi << x[2], x[3], x[4];
-    std::cout << std::endl << "fh: " << std::endl << x[0]<< std::endl;
-    std::cout << std::endl << "fv: " << std::endl << x[1]<< std::endl;
-    std::cout << std::endl << "rx: " << std::endl << x[2]<< std::endl;
-    std::cout << std::endl << "ry: " << std::endl << x[3]<< std::endl;
-    std::cout << std::endl << "rz: " << std::endl << x[4]<< std::endl;
+    // std::cout << std::endl << "fh: " << std::endl << x[0]<< std::endl;
+    // std::cout << std::endl << "fv: " << std::endl << x[1]<< std::endl;
+    // std::cout << std::endl << "rx: " << std::endl << x[2]<< std::endl;
+    // std::cout << std::endl << "ry: " << std::endl << x[3]<< std::endl;
+    // std::cout << std::endl << "rz: " << std::endl << x[4]<< std::endl;
     manif::SO3<double> rot_optimized = manif::exp(xi);
     Matrix3d rot_result = rot_init * rot_optimized.rotation();
     result->rot_platform = rot_result;
@@ -138,4 +138,5 @@ void fkSolver(double *lc_cat,
     result->lc_cat = cat_vars.lc_cat;
     result->cable_forces = state.cable_forces;
     result->b_in_w = geom_vars.b_in_w;
+
 }

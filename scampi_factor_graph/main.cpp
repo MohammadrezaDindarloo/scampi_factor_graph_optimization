@@ -1,5 +1,5 @@
 #include "scampi_fg.cpp"
-// g++ -std=c++17 main.cpp -lgtsam -lboost_system -lboost_timer -ltbb -ltbbmalloc -lmetis -lboost_serialization && ./a.out
+
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
 
@@ -29,17 +29,30 @@ int main(int argc, char *argv[])
                -0.11309773,  0.99354347,  0.00895918,
                 0.04222684, -0.00420248,  0.99909921; 
     
-    // start optimization
-    std::vector<MatrixXd> results = IK_Factor_Graph_Optimization(robot_params, rot_init, p_platform);
+    // start inverse optimization
+    std::vector<MatrixXd> IKresults = IK_Factor_Graph_Optimization(robot_params, rot_init, p_platform);
+    // the result of inverse optimization
+    std::cout << std::endl << "-------------------inverse result--------------------------" << std::endl;
+    std::cout << std::endl << "rot_platform: " << std::endl << IKresults[0] << std::endl;
+    std::cout << std::endl << "l_cat: " << std::endl << IKresults[1] << std::endl;
+    std::cout << std::endl << "cable_forces: " << std::endl << IKresults[2] << std::endl;
+    std::cout << std::endl << "c1: " << std::endl << IKresults[3] << std::endl;
+    std::cout << std::endl << "c2: " << std::endl << IKresults[4] << std::endl;
+    std::cout << std::endl << "b_in_w: " << std::endl << IKresults[5] << std::endl;
 
-    // the result of optimization
-    std::cout << std::endl << "-------------------caternary result--------------------------" << std::endl;
-    std::cout << std::endl << "rot_platform: " << std::endl << results[0] << std::endl;
-    std::cout << std::endl << "l_cat: " << std::endl << results[1] << std::endl;
-    std::cout << std::endl << "cable_forces: " << std::endl << results[2] << std::endl;
-    std::cout << std::endl << "c1: " << std::endl << results[3] << std::endl;
-    std::cout << std::endl << "c2: " << std::endl << results[4] << std::endl;
-    std::cout << std::endl << "b_in_w: " << std::endl << results[5] << std::endl;
-
+    // start forward optimization
+    Eigen::VectorXd lc_cat = IKresults[1];
+    Eigen::Vector2d fc_1 = IKresults[2].col(0);
+    Eigen::Vector3d pos_init = p_platform;
+    Eigen::Matrix3d rtation_init = rot_init;
+    std::vector<MatrixXd> FKresults = FK_Factor_Graph_Optimization(robot_params, lc_cat, fc_1, pos_init, rtation_init);
+    // the result of forward optimization
+    std::cout << std::endl << "-------------------forward result--------------------------" << std::endl;
+    std::cout << std::endl << "rot_platform: " << std::endl << FKresults[0] << std::endl;
+    std::cout << std::endl << "p_platform: " << std::endl << FKresults[1] << std::endl;
+    std::cout << std::endl << "cable_forces: " << std::endl << FKresults[2] << std::endl;
+    std::cout << std::endl << "c1: " << std::endl << FKresults[3] << std::endl;
+    std::cout << std::endl << "c2: " << std::endl << FKresults[4] << std::endl;
+    std::cout << std::endl << "b_in_w: " << std::endl << FKresults[5] << std::endl;
     return 0;
 }
