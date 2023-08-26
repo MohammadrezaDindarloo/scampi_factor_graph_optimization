@@ -34,4 +34,5 @@
 # mine
 *.ipynb_checkpoints/
 *.vscode/
+*.out
 
