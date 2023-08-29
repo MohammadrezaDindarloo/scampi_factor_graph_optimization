@@ -1,5 +1,3 @@
-#pragma once
-
 #include "../lib/include/libscampi.h"
 #include "../lib/src/scampi.cpp"
 
