@@ -187,13 +187,13 @@ int main(int argc, char const *argv[])
   Eigen::Vector3d r_to_cog(0, 0, -0.12);
   robo_param.setCog(r_to_cog);
 
-  Eigen::Vector3d p_platform(1.09173747e-01, -1.83715841e+00,  0.18367984e+00);
+  Eigen::Vector3d p_platform(3.09173747e-01, -1.83715841e+00,  2.18367984e+00);
   Eigen::Matrix3d rot_init;
   rot_init << 0.99268615,  0.11337417, -0.04147891,
              -0.11309773,  0.99354347,  0.00895918,
               0.04222684, -0.00420248,  0.99909921; 
   std::vector<MatrixXd> inverse_results = inverseKinematicsSolver(robo_param, p_platform, rot_init);
-  std::cout << std::endl << "-------------------result inverse--------------------------" << std::endl;
+  std::cout << std::endl << "---------inverse result--------" << std::endl;
   std::cout << std::endl << "rot_platform: " << std::endl << inverse_results[0] << std::endl;
   std::cout << std::endl << "l_cat: " << std::endl << inverse_results[1] << std::endl;
   std::cout << std::endl << "cable_forces: " << std::endl << inverse_results[2] << std::endl;
@@ -208,7 +208,7 @@ int main(int argc, char const *argv[])
   std::vector<MatrixXd> forward_result = forwardKinematicsSolver(robo_param, lc_cat, fc_1, pos_init, rtation_init);
 
   // std::vector<MatrixXd> forward_result = forwardKinematicsSolver(robo_param, lc_cat, fc_1, pos_init, rtation_init);
-  std::cout << std::endl << "-------------------result forward--------------------------" << std::endl;
+  std::cout << std::endl << "---------froward result--------"  << std::endl;
   std::cout << std::endl << "rot_platform: " << std::endl << forward_result[0] << std::endl;
   std::cout << std::endl << "p_platform: " << std::endl << forward_result[1] << std::endl;
   std::cout << std::endl << "cable_forces: " << std::endl << forward_result[2] << std::endl;

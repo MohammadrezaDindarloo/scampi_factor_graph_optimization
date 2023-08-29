@@ -11,9 +11,9 @@ void inverse_kinematic_factor_graph_optimizer(double p_init_0, double p_init_1, 
     NonlinearFactorGraph graph;
     Values initial_estimate;
 
-    auto Sensor_noiseModel_cost1 = gtsam::noiseModel::Isotropic::Sigma(4, 0.10);
-    auto Sensor_noiseModel_cost2 = gtsam::noiseModel::Isotropic::Sigma(4, 0.05);
-    auto Sensor_noiseModel_cost3 = gtsam::noiseModel::Isotropic::Sigma(4, 0.01);
+    auto Sensor_noiseModel_cost1 = gtsam::noiseModel::Isotropic::Sigma(4, sqrt(500));
+    auto Sensor_noiseModel_cost2 = gtsam::noiseModel::Isotropic::Sigma(4, sqrt(10));
+    auto Sensor_noiseModel_cost3 = gtsam::noiseModel::Isotropic::Sigma(4, 1);
 
     graph.add(std::make_shared<IK_factor_graoh_cost1>(Symbol('h', 1), Symbol('v', 1), Symbol('x', 1), Symbol('x', 2), Symbol('x', 3), p_init_0, p_init_1, p_init_2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, largest_cable, Sensor_noiseModel_cost1));
     graph.add(std::make_shared<IK_factor_graoh_cost2>(Symbol('h', 1), Symbol('v', 1), Symbol('x', 1), Symbol('x', 2), Symbol('x', 3), p_init_0, p_init_1, p_init_2, rot_init_x, rot_init_y, rot_init_z, rot_init_w, largest_cable, Sensor_noiseModel_cost2));
@@ -64,7 +64,108 @@ void ikSolver(RobotParameters<double> params,
     double p_init_1 = p_platform[1];
     double p_init_2 = p_platform[2];
     // define largest cable
-    int largest_cable = reorder_idx[0] + 1; 
+    int largest_cable = -1;
+    if(reorder_idx[0] == 0 && reorder_idx[1] == 1 && reorder_idx[2] == 2 && reorder_idx[3] == 3)
+    {
+        largest_cable = 0; 
+    }
+    else if (reorder_idx[0] == 0 && reorder_idx[1] == 1 && reorder_idx[2] == 3 && reorder_idx[3] == 2)
+    {
+        largest_cable = 1; 
+    }
+    else if (reorder_idx[0] == 0 && reorder_idx[1] == 2 && reorder_idx[2] == 1 && reorder_idx[3] == 3)
+    {
+        largest_cable = 2; 
+    }
+    else if (reorder_idx[0] == 0 && reorder_idx[1] == 2 && reorder_idx[2] == 3 && reorder_idx[3] == 1)
+    {
+        largest_cable = 3; 
+    }
+    else if (reorder_idx[0] == 0 && reorder_idx[1] == 3 && reorder_idx[2] == 1 && reorder_idx[3] == 2)
+    {
+        largest_cable = 4; 
+    }
+    else if (reorder_idx[0] == 0 && reorder_idx[1] == 3 && reorder_idx[2] == 2 && reorder_idx[3] == 1)
+    {
+        largest_cable = 5; 
+    }
+    else if (reorder_idx[0] == 1 && reorder_idx[1] == 0 && reorder_idx[2] == 2 && reorder_idx[3] == 3)
+    {
+        largest_cable = 6; 
+    }
+    else if (reorder_idx[0] == 1 && reorder_idx[1] == 0 && reorder_idx[2] == 3 && reorder_idx[3] == 2)
+    {
+        largest_cable = 7; 
+    }
+    else if (reorder_idx[0] == 1 && reorder_idx[1] == 2 && reorder_idx[2] == 0 && reorder_idx[3] == 3)
+    {
+        largest_cable = 8; 
+    }
+    else if (reorder_idx[0] == 1 && reorder_idx[1] == 2 && reorder_idx[2] == 3 && reorder_idx[3] == 0)
+    {
+        largest_cable = 9; 
+    }
+    else if (reorder_idx[0] == 1 && reorder_idx[1] == 3 && reorder_idx[2] == 0 && reorder_idx[3] == 2)
+    {
+        largest_cable = 10; 
+    }
+    else if (reorder_idx[0] == 1 && reorder_idx[1] == 3 && reorder_idx[2] == 2 && reorder_idx[3] == 0)
+    {
+        largest_cable = 11; 
+    }
+    else if (reorder_idx[0] == 2 && reorder_idx[1] == 0 && reorder_idx[2] == 1 && reorder_idx[3] == 3)
+    {
+        largest_cable = 12; 
+    }
+    else if (reorder_idx[0] == 2 && reorder_idx[1] == 0 && reorder_idx[2] == 3 && reorder_idx[3] == 1)
+    {
+        largest_cable = 13; 
+    }
+    else if (reorder_idx[0] == 2 && reorder_idx[1] == 1 && reorder_idx[2] == 0 && reorder_idx[3] == 3)
+    {
+        largest_cable = 14; 
+    }
+    else if (reorder_idx[0] == 2 && reorder_idx[1] == 1 && reorder_idx[2] == 3 && reorder_idx[3] == 0)
+    {
+        largest_cable = 15; 
+    }
+    else if (reorder_idx[0] == 2 && reorder_idx[1] == 3 && reorder_idx[2] == 0 && reorder_idx[3] == 1)
+    {
+        largest_cable = 16; 
+    }
+    else if (reorder_idx[0] == 2 && reorder_idx[1] == 3 && reorder_idx[2] == 1 && reorder_idx[3] == 0)
+    {
+        largest_cable = 17; 
+    }
+    else if (reorder_idx[0] == 3 && reorder_idx[1] == 0 && reorder_idx[2] == 1 && reorder_idx[3] == 2)
+    {
+        largest_cable = 18; 
+    }
+    else if (reorder_idx[0] == 3 && reorder_idx[1] == 0 && reorder_idx[2] == 2 && reorder_idx[3] == 1)
+    {
+        largest_cable = 19; 
+    }
+    else if (reorder_idx[0] == 3 && reorder_idx[1] == 1 && reorder_idx[2] == 0 && reorder_idx[3] == 2)
+    {
+        largest_cable = 20; 
+    }
+    else if (reorder_idx[0] == 3 && reorder_idx[1] == 1 && reorder_idx[2] == 2 && reorder_idx[3] == 0)
+    {
+        largest_cable = 21; 
+    }
+    else if (reorder_idx[0] == 3 && reorder_idx[1] == 2 && reorder_idx[2] == 0 && reorder_idx[3] == 1)
+    {
+        largest_cable = 22; 
+    }
+    else if (reorder_idx[0] == 3 && reorder_idx[1] == 2 && reorder_idx[2] == 1 && reorder_idx[3] == 0)
+    {
+        largest_cable = 23; 
+    }
+    else
+    {
+        std::cout << "Error: Cable index is wrong!!" << std::endl;
+        exit(1);
+    }
     // initial values for variable 
     double init_h1 = fh0;
     double init_v1 = -fv0;
@@ -98,35 +199,6 @@ void ikSolver(RobotParameters<double> params,
     getCableForces<double>(fh, fv, &state, params_reord,geom_vars);
     getCatenaryVariables<double>(state,params_reord, geom_vars,&cat_vars);
     //reverse the order of cables back to the normal configuration (base on notebook index)
-    switch(reorder_idx[0])
-    {
-        case 0:
-            reorder_idx[0] = 0;
-            reorder_idx[1] = 3;
-            reorder_idx[2] = 2;
-            reorder_idx[3] = 1;
-            break;
-        case 1:
-            reorder_idx[0] = 1;
-            reorder_idx[1] = 3;
-            reorder_idx[2] = 2;
-            reorder_idx[3] = 0;
-            break;
-        case 2:
-            reorder_idx[0] = 2;
-            reorder_idx[1] = 3;
-            reorder_idx[2] = 0;
-            reorder_idx[3] = 1;
-            break;
-        case 3:
-            reorder_idx[0] = 3;
-            reorder_idx[1] = 2;
-            reorder_idx[2] = 1;
-            reorder_idx[3] = 0;
-            break;
-        default:
-            break;
-    }
     reverseOrderForSolver<double>(state, geom_vars, cat_vars, result, reorder_idx);
 }
 
@@ -141,13 +213,13 @@ void forward_kinematic_factor_graph_optimizer(double lc0, double lc1, double lc2
     NonlinearFactorGraph graph;
     Values initial_estimate;
 
-    auto Sensor_noiseModel_cost1 = gtsam::noiseModel::Isotropic::Sigma(4, 0.01);
-    auto Sensor_noiseModel_cost2 = gtsam::noiseModel::Isotropic::Sigma(4, 0.01);
-    auto Sensor_noiseModel_cost3 = gtsam::noiseModel::Isotropic::Sigma(4, 0.01);
+    auto Sensor_noiseModel_cost1 = gtsam::noiseModel::Isotropic::Sigma(4, sqrt(10));
+    auto Sensor_noiseModel_cost2 = gtsam::noiseModel::Isotropic::Sigma(4, sqrt(10));
+    auto Sensor_noiseModel_cost3 = gtsam::noiseModel::Isotropic::Sigma(4, 1);
 
     graph.add(std::make_shared<FK_factor_graoh_cost1>(Symbol('h', 1), Symbol('v', 1), Symbol('x', 1), Symbol('x', 2), Symbol('x', 3), Symbol('t', 1), Symbol('t', 2), Symbol('t', 3), lc0, lc1, lc2, lc3, rot_init_x, rot_init_y, rot_init_z, rot_init_w, Sensor_noiseModel_cost1));
     graph.add(std::make_shared<FK_factor_graoh_cost2>(Symbol('h', 1), Symbol('v', 1), Symbol('x', 1), Symbol('x', 2), Symbol('x', 3), Symbol('t', 1), Symbol('t', 2), Symbol('t', 3), lc0, lc1, lc2, lc3, rot_init_x, rot_init_y, rot_init_z, rot_init_w, Sensor_noiseModel_cost2));
-    graph.add(std::make_shared<FK_factor_graoh_cost3>(Symbol('h', 1), Symbol('v', 1), Symbol('x', 1), Symbol('x', 2), Symbol('x', 3), Symbol('t', 1), Symbol('t', 2), Symbol('t', 3), lc0, lc1, lc2, lc3, rot_init_x, rot_init_y, rot_init_z, rot_init_w, Sensor_noiseModel_cost3));
+    // graph.add(std::make_shared<FK_factor_graoh_cost3>(Symbol('h', 1), Symbol('v', 1), Symbol('x', 1), Symbol('x', 2), Symbol('x', 3), Symbol('t', 1), Symbol('t', 2), Symbol('t', 3), lc0, lc1, lc2, lc3, rot_init_x, rot_init_y, rot_init_z, rot_init_w, Sensor_noiseModel_cost3));
 
     initial_estimate.insert(Symbol('h', 1), init_h1);
     initial_estimate.insert(Symbol('v', 1), init_v1);
