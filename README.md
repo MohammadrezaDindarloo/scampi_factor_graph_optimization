@@ -10,10 +10,12 @@ Then install [gtsam](https://github.com/borglab/gtsam)
 
 Install Manif (Lie Theory tools):
 
-```(git clone https://github.com/artivis/manif.git
+```
+git clone https://github.com/artivis/manif.git
 cd manif && mkdir build && cd build
 cmake ..
-sudo make install)```
+sudo make install
+```
 
 ## Python interface of solver
-comming son
+comming soon ...
