@@ -6,6 +6,8 @@
 #include <string>
 #include <sstream>
 #include <filesystem>
+#include <random>
+
 
 
 void saveData(string fileName, std::vector<MatrixXd> input_mat)
@@ -112,6 +114,26 @@ int main(int argc, char *argv[])
         std::cout << "Unable to open file." << std::endl;
     }
 
+    // read the csv for lc_meas_cpp_test
+    std::ifstream file3("raw_python_data_fedding_cpp_optimization/lc_meas_cpp_test.csv");
+    std::vector<std::vector<double>> lc_meas_cpp_test;
+    if (file3) {
+        std::string line;
+        while (getline(file3, line)) {
+            std::stringstream ss(line);
+            std::vector<double> row;
+            std::string val;
+            while (getline(ss, val, ',')) {
+                row.push_back(stod(val));
+            }
+            lc_meas_cpp_test.push_back(row);
+        }
+    std::cout << "Number of lc_meas_cpp_test: " << lc_meas_cpp_test.size() << std::endl;
+    } else {
+        std::cout << "Unable to open file." << std::endl;
+    }
+
+
     std::vector<MatrixXd> IKresults_test_rotplatform_IK;
     std::vector<MatrixXd> IKresults_test_lcat_IK;
     std::vector<MatrixXd> IKresults_cableforces_IK;
@@ -126,14 +148,20 @@ int main(int argc, char *argv[])
     std::vector<MatrixXd> FKresults_test_c2_FK;
     std::vector<MatrixXd> FKresults_test_b_in_w_FK;
 
+    Eigen::Matrix3d R_rand, R_fk_init;
+    Eigen::Vector3d center_fk_init, r_rand;
+
     // run the optimization and save the results
     for (size_t i = 0; i < pos_i_cpp_test.size(); i++)
     {   
-        Eigen::Vector3d p_platform(pos_i_cpp_test[i][0], pos_i_cpp_test[i][1], pos_i_cpp_test[i][2]);
+        Eigen::Vector3d p_platform;
+        p_platform[0] = pos_i_cpp_test[i][0];
+        p_platform[1] = pos_i_cpp_test[i][1];
+        p_platform[2] = pos_i_cpp_test[i][2];
         Eigen::Matrix3d rot_init;
         rot_init << R_i_cpp_test[i][0],  R_i_cpp_test[i][1], R_i_cpp_test[i][2],
                     R_i_cpp_test[i][3],  R_i_cpp_test[i][4], R_i_cpp_test[i][5],
-                    R_i_cpp_test[i][6],  R_i_cpp_test[i][7], R_i_cpp_test[i][8];        
+                    R_i_cpp_test[i][6],  R_i_cpp_test[i][7], R_i_cpp_test[i][8];   
         std::vector<MatrixXd> IKresults = IK_Factor_Graph_Optimization(robot_params, rot_init, p_platform);
         IKresults_test_rotplatform_IK.push_back(IKresults[0]);
         IKresults_test_lcat_IK.push_back(IKresults[1]);
@@ -142,10 +170,26 @@ int main(int argc, char *argv[])
         IKresults_test_c2_IK.push_back(IKresults[4]);
         IKresults_test_b_in_w_IK.push_back(IKresults[5]);
         
-        Eigen::VectorXd lc_cat = IKresults[1];
-        Eigen::Vector2d fc_1 = IKresults[2].col(0);
-        Eigen::Vector3d pos_init = p_platform;
-        Eigen::Matrix3d rtation_init = rot_init;
+        R_rand = Eigen::Matrix3d::Identity() + Eigen::Matrix3d::Random() * (0.5 * M_PI / 180.0);
+        R_fk_init = IKresults[0] * R_rand;
+
+        r_rand = Eigen::Vector3d::Random() * 0.1;
+        center_fk_init = p_platform + r_rand;
+
+        Eigen::Vector4d lc_cat;
+        lc_cat[0] = lc_meas_cpp_test[i][0]; 
+        lc_cat[1] = lc_meas_cpp_test[i][1]; 
+        lc_cat[2] = lc_meas_cpp_test[i][2]; 
+        lc_cat[3] = lc_meas_cpp_test[i][3];
+
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_real_distribution<double> dis(0.95, 1.05);
+        double rand_value = dis(gen);
+        std::cout << rand_value << std::endl;
+        Eigen::Vector2d fc_1 = IKresults[2].col(0) * (rand_value);
+        Eigen::Vector3d pos_init = center_fk_init;
+        Eigen::Matrix3d rtation_init = R_fk_init;
         std::vector<MatrixXd> FKresults = FK_Factor_Graph_Optimization(robot_params, lc_cat, fc_1, pos_init, rtation_init);
         FKresults_test_rotplatform_FK.push_back(FKresults[0]);
         FKresults_test_p_platform_FK.push_back(FKresults[1]);
