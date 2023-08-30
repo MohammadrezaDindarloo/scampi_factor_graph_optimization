@@ -8,6 +8,8 @@ Install also Ceres as described in this [ceres_solver](http://ceres-solver.org/i
 
 Then install [gtsam](https://github.com/borglab/gtsam)
 
+install [symforce](https://github.com/symforce-org/symforce)
+
 Install Manif (Lie Theory tools):
 
 ```
