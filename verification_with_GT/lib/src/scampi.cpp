@@ -213,8 +213,8 @@ void forward_kinematic_factor_graph_optimizer(double lc0, double lc1, double lc2
     NonlinearFactorGraph graph;
     Values initial_estimate;
 
-    auto Sensor_noiseModel_cost1 = gtsam::noiseModel::Isotropic::Sigma(4, sqrt(10));
-    auto Sensor_noiseModel_cost2 = gtsam::noiseModel::Isotropic::Sigma(4, sqrt(10));
+    auto Sensor_noiseModel_cost1 = gtsam::noiseModel::Isotropic::Sigma(4, sqrt(50));
+    auto Sensor_noiseModel_cost2 = gtsam::noiseModel::Isotropic::Sigma(4, sqrt(100));
     auto Sensor_noiseModel_cost3 = gtsam::noiseModel::Isotropic::Sigma(4, 1);
 
     graph.add(std::make_shared<FK_factor_graoh_cost1>(Symbol('h', 1), Symbol('v', 1), Symbol('x', 1), Symbol('x', 2), Symbol('x', 3), Symbol('t', 1), Symbol('t', 2), Symbol('t', 3), lc0, lc1, lc2, lc3, rot_init_x, rot_init_y, rot_init_z, rot_init_w, Sensor_noiseModel_cost1));

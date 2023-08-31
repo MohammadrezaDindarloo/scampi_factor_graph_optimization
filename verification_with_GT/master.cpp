@@ -7,6 +7,10 @@
 #include <sstream>
 #include <filesystem>
 #include <random>
+#include <bits/stdc++.h>
+#include <chrono>
+
+
 
 
 
@@ -151,6 +155,10 @@ int main(int argc, char *argv[])
     Eigen::Matrix3d R_rand, R_fk_init;
     Eigen::Vector3d center_fk_init, r_rand;
 
+    auto start = chrono::high_resolution_clock::now();
+    // unsync the I/O of C and C++.
+    ios_base::sync_with_stdio(false);
+
     // run the optimization and save the results
     for (size_t i = 0; i < pos_i_cpp_test.size(); i++)
     {   
@@ -186,7 +194,6 @@ int main(int argc, char *argv[])
         std::mt19937 gen(rd());
         std::uniform_real_distribution<double> dis(0.95, 1.05);
         double rand_value = dis(gen);
-        std::cout << rand_value << std::endl;
         Eigen::Vector2d fc_1 = IKresults[2].col(0) * (rand_value);
         Eigen::Vector3d pos_init = center_fk_init;
         Eigen::Matrix3d rtation_init = R_fk_init;
@@ -199,6 +206,13 @@ int main(int argc, char *argv[])
         FKresults_test_b_in_w_FK.push_back(FKresults[5]);
         
     }
+
+    auto end = chrono::high_resolution_clock::now();
+    double time_taken = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+    time_taken *= 1e-9;
+    cout << "Time taken by program is : " << fixed << time_taken << setprecision(9);
+    cout << " sec" << endl;
+
     // clean the directory to save data
     deleteDirectoryContents("data_from_cpp_to_python");
 
